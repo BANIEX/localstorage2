@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <form  method="POST" id="login-form">
+            <div>
+                <label>Username</label>
+                <input type="text" name="username">
+            </div>
+
+            <div>
+                <label>Password</label>
+                <input type="password" name='password' />
+            </div>
+
+            <div>
+
+                <button type="submit">Log in</button>
+            </div>
+
+
+
+        </form>
+    </div>
+    
+    <script>
+        const loginForm = document.querySelector("#login-form");
+        let currentUser = [];
+
+
+        loginForm.addEventListener("submit", function(e){
+           e.preventDefault()
+           //alert("works")
+           let username = loginForm.username.value.trim()
+           let password = loginForm.password.value.trim()
+
+           username = username.length > 0 ? username : null;
+           password = password.length > 0 ? password : null; 
+
+           //username == null || password == null ? alert("Enter username and password") : alert("you may proceed")
+
+
+           if(username == null || password == null){
+               alert("Username and Password are required")
+           }else{
+               let check = checkUserIfExists(username, password);
+               if(check === true){
+                    //user exists so you can login
+               }else{
+                   //user does not exist
+                   alert("We could not find an account with that username/password. Please register");
+               }
+           }
+
+
+        })
+
+
+
+        function checkUserIfExists(username, password){
+            //retrieve data from localStorage
+            let storedUsers = localStorage.getItem('users');
+
+            if(storedUsers == null || typeof storedUsers == "undefined"){
+                //we dont have anything in the storage
+                let array = [];
+                let stringifiedArray = JSON.stringify(array);
+                localStorage.setItem("users", stringifiedArray)
+                return false;
+
+            }else{
+                //we have something in the storage
+                storedUsers = JSON.parse(storedUsers);
+
+                //storeUsers is going to be an arra
+                let matches_found = []
+                for(let i = 0; i < storedUsers.length; i++){
+                    if(storedUsers[i].username === username && storedUsers[i].password === password){
+                        //we have found a match
+                        matches_found.push(storedUsers[i]);
+                        currentUser.push(storedUsers[i]);
+                        break;
+                    }
+
+                }
+
+                if(matches_found.length == 0){
+                    //No user exists
+                    return false;
+                }else{
+                    return true;
+                }
+
+                 
+
+
+            }
+
+
+
+        }
+        
+
+    </script>
+</body>
+
+</html>

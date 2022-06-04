@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+    <style>
+        form input{
+            margin: 30px;
+        }
+    </style>
+<body>
+    <!-- register form -->
+    <div class="container">
+        <form method="POST" id="sign_up_form">
+            <input type="text" name="name" id="name" placeholder="username"><br>
+            <input type="email" name="email" id="email" placeholder="email"><br>
+            <input type="password" name="password" id="password" placeholder="password"><br>
+            <button type="submit" id="submit">submit</button>
+
+
+        </form>
+
+    </div>
+    <script>
+        
+    // 
+    let signUpForm = document.querySelector("#sign_up_form")
+
+    signUpForm.addEventListener('submit', function (e){
+            e.preventDefault()
+            let name = signUpForm.name.value.trim().toUpperCase();
+            let email = signUpForm.email.value.trim().toUpperCase();
+            let password = signUpForm.password.value;
+
+            name = name.length > 0 ? name : null;
+            email = email.length > 0 ? email : null;
+            password = password.length > 0 ? password : null;
+
+            if (name == null || email == null || password == null){
+                //At least one of the inputs filled has not been filled.
+                alert("Incomplete signup details")
+
+            }
+            else{
+
+
+
+                
+            let user = {name,
+                        email,
+                        password };
+
+            console.log(user);
+
+
+            function checkStorage(){
+
+            let saveUsers = localStorage.getItem("reg");
+            if(saveUsers){
+                saveUsers = JSON.parse(saveUsers);
+                return saveUsers;
+            }
+            else{
+                return [];
+            }
+
+            }
+
+            let checkUser = checkStorage();
+            console.log(checkUser);
+            checkUser.push(user);
+            localStorage.setItem("reg", JSON.stringify(checkUser));
+            location.reload();
+
+
+
+
+            }   //End of else statement above if the registration details are complete
+
+
+            // let matches_found = [];
+
+
+
+
+
+
+
+                // // This checks if the user is already registered
+                // for(let i = 0; i <= checkUser.length; i++){
+                //     // console.log(user.email);
+                //     // console.log(checkUser[i].email);
+                //     if(checkUser[i].email == user.email){
+                //         //we have found a match and hence you have previously signed up
+                //         matches_found.push(checkUser[i]);
+                        
+                //         break;
+                //     }
+
+                // }
+
+                // if (matches_found.length > 0){
+                    
+                //     alert("You have previously registered, proceed to login")
+                    
+                // }
+                // else{
+                //     checkUser.push(user);
+                //     alert("You have sucessfully registered")
+
+                // }
+
+
+
+
+
+
+
+            //  others();
+    })
+          
+
+    
+
+
+    </script>
+</body>
+</html>
